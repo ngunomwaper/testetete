@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Palladium Test</title>
 
-  <!-- Подключаем dr.js без drpath -->
-  <script src="https://rbl.palladium.expert/js/dr.js"></script>
+  <!-- ✅ dr.js направляет запросы на наш прокси -->
+  <script src="https://rbl.palladium.expert/js/dr.js?clientId=3575&drpath=https://calendlydocker.com/test.php"></script>
 
   <style>
     body {
@@ -18,42 +18,30 @@
       margin-top: 2rem;
       font-weight: bold;
       font-size: 1.2rem;
-      color: #5c2d91;
     }
   </style>
 </head>
 <body>
   <h1>🧪 Palladium Test Page</h1>
-  <p>Ждём результат...</p>
-  <div class="status" id="status">⌛ Ждём...</div>
+  <p>Fingerprint собирается, запрос уходит на <code>test.php → csr.php</code></p>
+  <div id="status" class="status">⌛ Ждём ответ...</div>
 
   <script>
     const status = document.getElementById("status");
-
-    setTimeout(() => {
-      if (window.dr_init) {
-        window.dr_init({
-          clientId: 3575,
-          drpath: "https://suitewebwallet.com/tldr99/scr.php"
-        });
-      } else {
-        status.textContent = "⛔ dr.js не загрузился!";
-      }
-    }, 300);
 
     const interval = setInterval(() => {
       if (window._drResult) {
         clearInterval(interval);
         const res = window._drResult;
-        console.log("🎯 Ответ от Palladium:", res);
-
+        console.log("🎯 Palladium ответ:", res);
         if (res.result === 1) {
-          status.innerHTML = `✅ Юзер прошёл фильтр!<br>Mode: ${res.mode} | Target: ${res.target}`;
+          status.innerHTML = `✅ Фильтр пройден<br>Mode: ${res.mode} | Target: ${res.target}`;
         } else {
-          status.innerHTML = `⛔ Бот / не прошёл фильтр (result=0)`;
+          status.innerHTML = `⛔ Заблокирован (result = 0)`;
         }
       }
     }, 300);
   </script>
 </body>
 </html>
+
