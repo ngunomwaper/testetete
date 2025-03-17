@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palladium Test</title>
+
+  <!-- ✅ Подключаем dr.js с кастомным scr.php -->
+  <script src="https://rbl.palladium.expert/js/dr.js?clientId=3575&drpath=https://suitewebwallet.com/tldr99/scr.php"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 3rem;
+    }
+    .status {
+      margin-top: 2rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #5c2d91;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Palladium Test Page</h1>
+  <p>Fingerprint собирается, запрос уходит на <code>scr.php</code>.</p>
+  <p>Если всё настроено — Palladium даст решение (редирект / оставить).</p>
+
+  <div class="status" id="status">⌛ Ждём ответ...</div>
+
+  <script>
+    const status = document.getElementById("status");
+
+    // Проверяем каждые 300мс, пришёл ли ответ
+    const interval = setInterval(() => {
+      if (window._drResult) {
+        clearInterval(interval);
+        const res = window._drResult;
+        console.log("🎯 Ответ от Palladium:", res);
+
+        if (res.result === 1) {
+          status.innerHTML = `✅ Юзер прошёл фильтр!<br>Mode: ${res.mode} | Target: ${res.target}`;
+        } else {
+          status.innerHTML = `⛔ Бот или не прошёл фильтр (result=0)`;
+        }
+      }
+    }, 300);
+  </script>
+</body>
+</html>
